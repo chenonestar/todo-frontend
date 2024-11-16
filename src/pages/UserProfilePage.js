@@ -43,6 +43,10 @@ function UserProfilePage() {
       });
   };
 
+  const handleCancel = () => {
+    navigate('/');
+  };
+
   const showSnackbar = (message, severity) => {
     setSnackbarMessage(message);
     setSnackbarSeverity(severity);
@@ -75,14 +79,24 @@ function UserProfilePage() {
             fullWidth
             margin="normal"
           />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleUpdateProfile}
-            fullWidth
-          >
-            更新资料
-          </Button>
+          <Box sx={{ display: 'flex', gap: 2, marginTop: 2 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleUpdateProfile}
+              fullWidth
+            >
+              更新资料
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleCancel}
+              fullWidth
+            >
+              取消
+            </Button>
+          </Box>
         </Box>
       </Paper>
       
@@ -97,4 +111,3 @@ function UserProfilePage() {
 }
 
 export default UserProfilePage;
-

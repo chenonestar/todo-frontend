@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Paper, Typography, Box, Snackbar, Button, Stack, Divider, TextField, FormControl, InputLabel, Select, MenuItem, Grid } from '@mui/material';
+import { Container, Paper, Typography, Box, Snackbar, Button, Stack, Divider, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -12,7 +12,7 @@ import EditTodoDialog from '../components/EditTodoDialog';
 import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
 import { format } from 'date-fns';
 
-function TodoPage() {
+function TodoPage({ onLogout }) {
   const navigate = useNavigate();
   const [todos, setTodos] = useState([]);
   const [title, setTitle] = useState('');
@@ -131,6 +131,7 @@ function TodoPage() {
       });
   };
 
+  // Filtering and searching todos
   const filteredTodos = todos
     .filter((todo) => {
       if (filter === 'completed') {
@@ -160,8 +161,9 @@ function TodoPage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
+    if (onLogout) {
+      onLogout();
+    }
   };
 
   return (
@@ -183,31 +185,27 @@ function TodoPage() {
           </Stack>
 
           {/* 搜索和过滤框 */}
-          <Grid container spacing={2} sx={{ marginBottom: 3 }}>
-            <Grid item xs={12} md={8}>
-              <TextField
-                label="搜索待办事项"
-                variant="outlined"
-                fullWidth
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel>过滤</InputLabel>
-                <Select
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  label="过滤"
-                >
-                  <MenuItem value="all">全部</MenuItem>
-                  <MenuItem value="completed">已完成</MenuItem>
-                  <MenuItem value="uncompleted">未完成</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
+          <Box sx={{ marginBottom: 3, display: 'flex', gap: 2 }}>
+            <TextField
+              label="搜索待办事项"
+              variant="outlined"
+              fullWidth
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel>过滤</InputLabel>
+              <Select
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                label="过滤"
+              >
+                <MenuItem value="all">全部</MenuItem>
+                <MenuItem value="completed">已完成</MenuItem>
+                <MenuItem value="uncompleted">未完成</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
 
           <Divider sx={{ marginBottom: 3 }} />
 

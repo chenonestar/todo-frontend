@@ -11,36 +11,10 @@ function TodoForm({
     setPriority,
     dueDate,
     setDueDate,
-    addTodo,
-    filter,
-    setFilter,
-    searchTerm,
-    setSearchTerm
+    addTodo
 }) {
     return (
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-            <TextField
-                label="搜索待办事项"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                fullWidth
-                margin="normal"
-                variant="outlined"
-            />
-            <TextField
-                label="过滤"
-                select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                fullWidth
-                margin="normal"
-                variant="outlined"
-            >
-                <MenuItem value="all">全部</MenuItem>
-                <MenuItem value="completed">已完成</MenuItem>
-                <MenuItem value="uncompleted">未完成</MenuItem>
-            </TextField>
-
             <TextField
                 label="待办事项标题"
                 value={title}
