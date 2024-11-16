@@ -1,6 +1,5 @@
-// TodoPage.js
 import React, { useState, useEffect } from 'react';
-import { Container, Paper, Typography, Box, Snackbar, Button } from '@mui/material';
+import { Container, Paper, Typography, Box, Snackbar, Button, Stack, Divider, TextField, FormControl, InputLabel, Select, MenuItem, Grid } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -168,15 +167,51 @@ function TodoPage() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Container maxWidth="md">
-        <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
-          <Typography variant="h4" align="center" gutterBottom>
-            待办事项管理
-          </Typography>
-          <Button variant="contained" color="secondary" onClick={handleLogout} sx={{ marginBottom: 2 }}>
-            退出登录
-          </Button>
+        <Paper elevation={3} sx={{ padding: 4, marginTop: 4 }}>
+          <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="center" sx={{ marginBottom: 3 }}>
+            <Typography variant="h4" align="left">
+              待办事项管理
+            </Typography>
+            <Stack direction="row" spacing={2}>
+              <Button variant="contained" color="primary" onClick={() => navigate('/profile')}>
+                用户资料
+              </Button>
+              <Button variant="contained" color="secondary" onClick={handleLogout}>
+                退出登录
+              </Button>
+            </Stack>
+          </Stack>
 
-          {/* 搜索和添加表单 */}
+          {/* 搜索和过滤框 */}
+          <Grid container spacing={2} sx={{ marginBottom: 3 }}>
+            <Grid item xs={12} md={8}>
+              <TextField
+                label="搜索待办事项"
+                variant="outlined"
+                fullWidth
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel>过滤</InputLabel>
+                <Select
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  label="过滤"
+                >
+                  <MenuItem value="all">全部</MenuItem>
+                  <MenuItem value="completed">已完成</MenuItem>
+                  <MenuItem value="uncompleted">未完成</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+
+          <Divider sx={{ marginBottom: 3 }} />
+
+          {/* 添加待办事项表单 */}
           <Box sx={{ marginBottom: 3 }}>
             <TodoForm
               title={title}
@@ -188,10 +223,6 @@ function TodoPage() {
               dueDate={dueDate}
               setDueDate={setDueDate}
               addTodo={addTodo}
-              filter={filter}
-              setFilter={setFilter}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
             />
           </Box>
 
